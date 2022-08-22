@@ -1,1 +1,2 @@
 org.drools.yaml.compilation.service.KieCompilerServiceRuleSet
+org.drools.yaml.compilation.service.KieCompilerServiceJson
