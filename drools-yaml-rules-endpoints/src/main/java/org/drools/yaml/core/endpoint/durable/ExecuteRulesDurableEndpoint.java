@@ -1,12 +1,6 @@
 package org.drools.yaml.core.endpoint.durable;
 
-import org.drools.yaml.runtime.RulesRuntimeContext;
-import org.drools.yaml.runtime.model.EfestoInputMap;
-import org.drools.yaml.runtime.model.EfestoOutputInteger;
-import org.drools.yaml.runtime.utils.InputMaps;
-import org.drools.yaml.runtime.utils.RuntimeUtils;
-import org.kie.efesto.common.api.model.FRI;
-import org.kie.efesto.runtimemanager.api.service.RuntimeManager;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -15,7 +9,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Map;
+
+import org.drools.yaml.runtime.RulesRuntimeContext;
+import org.drools.yaml.runtime.model.EfestoInputMap;
+import org.drools.yaml.runtime.model.EfestoOutputInteger;
+import org.drools.yaml.runtime.utils.InputMaps;
+import org.kie.efesto.runtimemanager.api.service.RuntimeManager;
 
 @Path("/rules-durable-executors/{id}/execute")
 public class ExecuteRulesDurableEndpoint {

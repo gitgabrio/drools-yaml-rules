@@ -15,12 +15,12 @@
  */
 package org.drools.yaml.runtime.model;
 
-import org.kie.efesto.common.api.model.FRI;
+import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
 import org.kie.efesto.runtimemanager.api.model.AbstractEfestoOutput;
 
 public class EfestoOutputBoolean extends AbstractEfestoOutput<Boolean> {
 
-    public EfestoOutputBoolean(FRI fri, Boolean outputData) {
-        super(fri, outputData);
+    public EfestoOutputBoolean(ModelLocalUriId modelLocalUriId, Boolean outputData) {
+        super(modelLocalUriId, outputData);
     }
 }

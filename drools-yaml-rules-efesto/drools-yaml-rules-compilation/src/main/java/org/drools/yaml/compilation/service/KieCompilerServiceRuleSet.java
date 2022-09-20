@@ -51,4 +51,9 @@ public class KieCompilerServiceRuleSet implements KieCompilerService {
         ((HasRulesExecutorContainer) context).register(rulesExecutor);
         return Collections.emptyList();
     }
+
+    @Override
+    public String getModelType() {
+        return "drl";
+    }
 }

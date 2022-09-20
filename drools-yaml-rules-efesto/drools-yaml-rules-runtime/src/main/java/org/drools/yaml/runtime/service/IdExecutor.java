@@ -1,5 +1,6 @@
 package org.drools.yaml.runtime.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import org.drools.yaml.api.context.HasRulesExecutorContainer;
 import org.drools.yaml.runtime.model.EfestoInputId;
 import org.drools.yaml.runtime.model.EfestoOutputFactMaps;
+import org.kie.efesto.common.api.cache.EfestoClassKey;
 import org.kie.efesto.runtimemanager.api.model.EfestoInput;
 import org.kie.efesto.runtimemanager.api.model.EfestoRuntimeContext;
 import org.kie.efesto.runtimemanager.api.service.KieRuntimeService;
@@ -17,9 +19,13 @@ public class IdExecutor implements KieRuntimeService<Long, List<Map<String, Obje
         EfestoOutputFactMaps, EfestoRuntimeContext> {
 
     @Override
+    public EfestoClassKey getEfestoClassKeyIdentifier() {
+        return new EfestoClassKey(EfestoInputId.class, Collections.singletonList(Long.class));
+    }
+
+    @Override
     public boolean canManageInput(EfestoInput toEvaluate, EfestoRuntimeContext context) {
-        return (toEvaluate instanceof EfestoInputId) &&
-                (context instanceof HasRulesExecutorContainer) &&
+        return (context instanceof HasRulesExecutorContainer) &&
                 ((HasRulesExecutorContainer) context).hasRulesExecutor(((EfestoInputId) toEvaluate).getId());
     }
 
@@ -27,6 +33,11 @@ public class IdExecutor implements KieRuntimeService<Long, List<Map<String, Obje
     public Optional<EfestoOutputFactMaps> evaluateInput(EfestoInputId toEvaluate, EfestoRuntimeContext context) {
         HasRulesExecutorContainer hasRuleExecutor = (HasRulesExecutorContainer) context;
         return Optional.ofNullable(getAllFacts(toEvaluate, hasRuleExecutor.getRulesExecutor((toEvaluate).getId())));
+    }
+
+    @Override
+    public String getModelType() {
+        return "drl";
     }
 
 }

@@ -96,6 +96,11 @@ public class KieCompilerServiceJson implements KieCompilerService {
         return Collections.emptyList();
     }
 
+    @Override
+    public String getModelType() {
+        return "drl";
+    }
+
     private class RulesExecutorKey implements Serializable {
 
         private final RuleNotation ruleNotation;

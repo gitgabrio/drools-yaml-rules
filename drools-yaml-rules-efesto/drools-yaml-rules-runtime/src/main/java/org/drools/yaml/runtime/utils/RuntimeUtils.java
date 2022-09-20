@@ -24,13 +24,16 @@ import java.util.stream.Collectors;
 import org.drools.yaml.api.domain.RuleMatch;
 import org.drools.yaml.api.domain.durable.DurableRuleMatch;
 import org.drools.yaml.runtime.RulesRuntimeContext;
+import org.drools.yaml.runtime.model.DrlRulesetIdFactory;
 import org.drools.yaml.runtime.model.EfestoInputId;
 import org.drools.yaml.runtime.model.EfestoInputMap;
 import org.drools.yaml.runtime.model.EfestoOutputBoolean;
 import org.drools.yaml.runtime.model.EfestoOutputFactMaps;
 import org.drools.yaml.runtime.model.EfestoOutputInteger;
 import org.drools.yaml.runtime.model.EfestoOutputMatches;
-import org.kie.efesto.common.api.model.FRI;
+import org.drools.yaml.runtime.model.LocalComponentIdDrlRuleset;
+import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
+import org.kie.efesto.common.api.identifiers.ReflectiveAppRoot;
 import org.kie.efesto.runtimemanager.api.model.EfestoInput;
 import org.kie.efesto.runtimemanager.api.model.EfestoOutput;
 import org.kie.efesto.runtimemanager.api.service.RuntimeManager;
@@ -65,8 +68,8 @@ public class RuntimeUtils {
     }
 
     public static List<Map<String, Object>> getAllFacts(long id) {
-        FRI fri = makeFRI(id);
-        EfestoInputId efestoInputId = new EfestoInputId(fri, id);
+        ModelLocalUriId modelLocalUriId = makeModelLocalUriId(id);
+        EfestoInputId efestoInputId = new EfestoInputId(modelLocalUriId, id);
         EfestoOutputFactMaps output = (EfestoOutputFactMaps) common(efestoInputId);
         return output.getOutputData();
     }
@@ -84,8 +87,8 @@ public class RuntimeUtils {
     }
 
     private static EfestoOutput common(long id, Map<String, Object> factMap, String operation) {
-        FRI fri = makeFRI(id, operation);
-        EfestoInputMap efestoInputMap = new EfestoInputMap(fri, id, factMap, operation);
+        ModelLocalUriId modelLocalUriId = makeModelLocalUriId(id, operation);
+        EfestoInputMap efestoInputMap = new EfestoInputMap(modelLocalUriId, id, factMap, operation);
         return common(efestoInputMap);
     }
 
@@ -99,10 +102,14 @@ public class RuntimeUtils {
         return outputs.iterator().next();
     }
 
-    private static FRI makeFRI(Object... suffix) {
+
+    static ModelLocalUriId makeModelLocalUriId(Object... suffix) {
         String suffixString = Arrays.stream(suffix).map(Object::toString).collect(Collectors.joining("/"));
-        String basePath = "/drl/ruleset/" + suffixString;
-        return new FRI(basePath, "drl");
+        LocalComponentIdDrlRuleset modelLocalUriId = new ReflectiveAppRoot("")
+                .get(DrlRulesetIdFactory.class)
+                .get(suffixString);
+
+        return modelLocalUriId;
     }
 
 }

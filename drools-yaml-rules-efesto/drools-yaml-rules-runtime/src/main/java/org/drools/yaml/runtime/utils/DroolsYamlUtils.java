@@ -36,17 +36,17 @@ public class DroolsYamlUtils {
 
     public static EfestoOutputInteger executeFacts(EfestoInputJson toEvaluate, RulesExecutor rulesExecutor) {
         int retrieved = rulesExecutor.executeFacts(toEvaluate.getInputData());
-        return new EfestoOutputInteger(toEvaluate.getFRI(), retrieved);
+        return new EfestoOutputInteger(toEvaluate.getModelLocalUriId(), retrieved);
     }
 
     public static EfestoOutputMatches processFacts(EfestoInputJson toEvaluate, RulesExecutor rulesExecutor) {
         List<Match> matches = rulesExecutor.processFacts(toEvaluate.getInputData());
-        return new EfestoOutputMatches(toEvaluate.getFRI(), matches);
+        return new EfestoOutputMatches(toEvaluate.getModelLocalUriId(), matches);
     }
 
     public static EfestoOutputFactMaps getAllFacts(EfestoInputId toEvaluate, RulesExecutor rulesExecutor) {
         List<Map<String, Object>> allFacts = rulesExecutor.getAllFactsAsMap();
-        return new EfestoOutputFactMaps(toEvaluate.getFRI(), allFacts);
+        return new EfestoOutputFactMaps(toEvaluate.getModelLocalUriId(), allFacts);
     }
 
     public static EfestoOutput evaluate(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
@@ -66,21 +66,21 @@ public class DroolsYamlUtils {
 
     private static EfestoOutputInteger executeFacts(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
         int retrieved = rulesExecutor.executeFacts(toEvaluate.getInputData());
-        return new EfestoOutputInteger(toEvaluate.getFRI(), retrieved);
+        return new EfestoOutputInteger(toEvaluate.getModelLocalUriId(), retrieved);
     }
 
     private static EfestoOutputMatches processFacts(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
         List<Match> matches = rulesExecutor.processFacts(toEvaluate.getInputData());
-        return new EfestoOutputMatches(toEvaluate.getFRI(), matches);
+        return new EfestoOutputMatches(toEvaluate.getModelLocalUriId(), matches);
     }
 
     private static EfestoOutputMatches processEvents(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
         List<Match> matches = rulesExecutor.processEvents(toEvaluate.getInputData());
-        return new EfestoOutputMatches(toEvaluate.getFRI(), matches);
+        return new EfestoOutputMatches(toEvaluate.getModelLocalUriId(), matches);
     }
 
     private static EfestoOutputBoolean retract(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
         boolean retracted = rulesExecutor.retractFact(toEvaluate.getInputData());
-        return new EfestoOutputBoolean(toEvaluate.getFRI(), retracted);
+        return new EfestoOutputBoolean(toEvaluate.getModelLocalUriId(), retracted);
     }
 }

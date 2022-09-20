@@ -15,17 +15,32 @@
  */
 package org.drools.yaml.runtime.model;
 
+import org.kie.efesto.common.api.identifiers.Id;
+import org.kie.efesto.common.api.identifiers.LocalId;
+import org.kie.efesto.common.api.identifiers.LocalUri;
 import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
-import org.kie.efesto.runtimemanager.api.model.BaseEfestoInput;
 
-public class EfestoInputId extends BaseEfestoInput<Long> implements HasId {
+public class LocalComponentIdDrlRuleset extends ModelLocalUriId implements Id {
 
-    public EfestoInputId(ModelLocalUriId modelLocalUriId, long id) {
-        super(modelLocalUriId, id);
+    public static final String PREFIX = "drl";
+    public static final String RULESET = "ruleset";
+
+    public LocalComponentIdDrlRuleset(String basePath) {
+        super(appendBasePath(LocalUri.Root.append(PREFIX).append(RULESET),basePath));
     }
 
     @Override
-    public long getId() {
-        return super.getInputData();
+    public LocalId toLocalId() {
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

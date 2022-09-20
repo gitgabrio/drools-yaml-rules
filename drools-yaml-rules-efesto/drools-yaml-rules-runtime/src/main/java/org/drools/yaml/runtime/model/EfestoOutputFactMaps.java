@@ -15,18 +15,16 @@
  */
 package org.drools.yaml.runtime.model;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kie.api.runtime.rule.Match;
-import org.kie.efesto.common.api.model.FRI;
+import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
 import org.kie.efesto.runtimemanager.api.model.AbstractEfestoOutput;
 
 public class EfestoOutputFactMaps extends AbstractEfestoOutput<List<Map<String, Object>>> {
 
-    public EfestoOutputFactMaps(FRI fri, List<Map<String, Object>> inputData) {
-        super(fri, inputData);
+    public EfestoOutputFactMaps(ModelLocalUriId modelLocalUriId, List<Map<String, Object>> inputData) {
+        super(modelLocalUriId, inputData);
     }
 
 }

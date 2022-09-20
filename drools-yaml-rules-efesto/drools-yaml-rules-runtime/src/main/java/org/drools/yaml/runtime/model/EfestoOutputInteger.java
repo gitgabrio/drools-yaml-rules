@@ -15,14 +15,13 @@
  */
 package org.drools.yaml.runtime.model;
 
-import org.kie.efesto.common.api.model.FRI;
-import org.kie.efesto.runtimemanager.api.model.AbstractEfestoInput;
+import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
 import org.kie.efesto.runtimemanager.api.model.AbstractEfestoOutput;
 
 public class EfestoOutputInteger extends AbstractEfestoOutput<Integer> {
 
-    public EfestoOutputInteger(FRI fri, Integer inputData) {
-        super(fri, inputData);
+    public EfestoOutputInteger(ModelLocalUriId modelLocalUriId, Integer inputData) {
+        super(modelLocalUriId, inputData);
     }
 
 }

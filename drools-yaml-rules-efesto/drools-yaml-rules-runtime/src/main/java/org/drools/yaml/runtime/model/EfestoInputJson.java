@@ -15,16 +15,16 @@
  */
 package org.drools.yaml.runtime.model;
 
-import org.kie.efesto.common.api.model.FRI;
-import org.kie.efesto.runtimemanager.api.model.AbstractEfestoInput;
+import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
+import org.kie.efesto.runtimemanager.api.model.BaseEfestoInput;
 
-public class EfestoInputJson extends AbstractEfestoInput<String> implements HasId {
+public class EfestoInputJson extends BaseEfestoInput<String> implements HasId {
 
     private final long id;
 
 
-    protected EfestoInputJson(FRI fri, long id, String inputData) {
-        super(fri, inputData);
+    protected EfestoInputJson(ModelLocalUriId modelLocalUriId, long id, String inputData) {
+        super(modelLocalUriId, inputData);
         this.id = id;
     }
 

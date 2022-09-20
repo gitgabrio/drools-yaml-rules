@@ -1,19 +1,24 @@
 package org.drools.yaml.runtime.utils;
 
-import org.drools.yaml.runtime.model.EfestoInputId;
-import org.drools.yaml.runtime.model.EfestoInputMap;
-import org.kie.efesto.common.api.model.FRI;
-import org.kie.efesto.runtimemanager.api.model.EfestoInput;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.drools.yaml.runtime.model.DrlRulesetIdFactory;
+import org.drools.yaml.runtime.model.EfestoInputId;
+import org.drools.yaml.runtime.model.EfestoInputMap;
+import org.drools.yaml.runtime.model.LocalComponentIdDrlRuleset;
+import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
+import org.kie.efesto.common.api.identifiers.ReflectiveAppRoot;
+import org.kie.efesto.runtimemanager.api.model.EfestoInput;
+
+import static org.drools.yaml.runtime.utils.RuntimeUtils.makeModelLocalUriId;
+
 public class InputMaps {
 
     public static EfestoInput<?> getAllFacts(long id) {
-        FRI fri = makeFRI(id);
-        return new EfestoInputId(fri, id);
+        ModelLocalUriId modelLocalUriId = makeModelLocalUriId(id);
+        return new EfestoInputId(modelLocalUriId, id);
     }
 
     public static EfestoInputMap executeFacts(long id, Map<String, Object> factMap) {
@@ -33,15 +38,8 @@ public class InputMaps {
     }
 
     private static EfestoInputMap commonInputMap(long id, Map<String, Object> factMap, String operation) {
-        FRI fri = makeFRI(id, operation);
-        return new EfestoInputMap(fri, id, factMap, operation);
+        ModelLocalUriId modelLocalUriId = makeModelLocalUriId(id, operation);
+        return new EfestoInputMap(modelLocalUriId, id, factMap, operation);
     }
-
-    private static FRI makeFRI(Object... suffix) {
-        String suffixString = Arrays.stream(suffix).map(Object::toString).collect(Collectors.joining("/"));
-        String basePath = "/drl/ruleset/" + suffixString;
-        return new FRI(basePath, "drl");
-    }
-
 
 }
