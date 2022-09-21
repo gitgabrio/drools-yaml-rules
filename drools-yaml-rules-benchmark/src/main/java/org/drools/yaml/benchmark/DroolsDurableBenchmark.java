@@ -8,10 +8,12 @@ import org.drools.yaml.api.notations.DurableNotation;
 import org.drools.yaml.compilation.RulesCompilationContext;
 import org.drools.yaml.compilation.model.JsonResource;
 import org.drools.yaml.runtime.RulesRuntimeContext;
+import org.drools.yaml.runtime.model.EfestoInputJson;
 import org.drools.yaml.runtime.model.EfestoInputMap;
 import org.drools.yaml.runtime.model.EfestoOutputMatches;
 import org.drools.yaml.runtime.utils.InputMaps;
 import org.json.JSONObject;
+import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
 import org.kie.efesto.compilationmanager.api.service.CompilationManager;
 import org.kie.efesto.compilationmanager.api.utils.SPIUtils;
 import org.kie.efesto.runtimemanager.api.service.RuntimeManager;
@@ -26,6 +28,8 @@ import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
+
+import static org.drools.yaml.runtime.utils.RuntimeUtils.makeModelLocalUriId;
 
 @State(Scope.Benchmark)
 @Warmup(iterations = 5)
@@ -93,10 +97,10 @@ public class DroolsDurableBenchmark {
         for (int i = 0; i < eventsNr; i++) {
             // Doing inside the loop to recreate condition as of `benchmarkNotEfesto`
             String json = "{ \"event\": { \"i\": \"Done\" } }";
-            Map<String, Object> factMap = new JSONObject(json).toMap();
-            EfestoInputMap efestoInputMap = InputMaps.processEvents(executorId, factMap);
+            ModelLocalUriId modelLocalUriId = makeModelLocalUriId(executorId, "processEvents");
+            EfestoInputJson efestoInputJson = new EfestoInputJson(modelLocalUriId, executorId, json);
             EfestoOutputMatches matches = (EfestoOutputMatches) runtimeManager
-                    .evaluateInput(rulesRuntimeContext, efestoInputMap)
+                    .evaluateInput(rulesRuntimeContext, efestoInputJson)
                     .iterator().next();
             count += matches.getOutputData().size();
         }

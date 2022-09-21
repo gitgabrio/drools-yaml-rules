@@ -1,15 +1,10 @@
 package org.drools.yaml.runtime.utils;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.drools.yaml.runtime.model.DrlRulesetIdFactory;
 import org.drools.yaml.runtime.model.EfestoInputId;
 import org.drools.yaml.runtime.model.EfestoInputMap;
-import org.drools.yaml.runtime.model.LocalComponentIdDrlRuleset;
 import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
-import org.kie.efesto.common.api.identifiers.ReflectiveAppRoot;
 import org.kie.efesto.runtimemanager.api.model.EfestoInput;
 
 import static org.drools.yaml.runtime.utils.RuntimeUtils.makeModelLocalUriId;

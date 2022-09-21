@@ -23,7 +23,7 @@ public class EfestoInputJson extends BaseEfestoInput<String> implements HasId {
     private final long id;
 
 
-    protected EfestoInputJson(ModelLocalUriId modelLocalUriId, long id, String inputData) {
+    public EfestoInputJson(ModelLocalUriId modelLocalUriId, long id, String inputData) {
         super(modelLocalUriId, inputData);
         this.id = id;
     }

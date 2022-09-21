@@ -49,38 +49,43 @@ public class DroolsYamlUtils {
         return new EfestoOutputFactMaps(toEvaluate.getModelLocalUriId(), allFacts);
     }
 
-    public static EfestoOutput evaluate(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
-        switch(toEvaluate.getOperation()) {
-            case "execute-facts" :
-                return executeFacts(toEvaluate, rulesExecutor);
-            case "process-facts":
-                return processFacts(toEvaluate, rulesExecutor);
-            case "process-events":
-                return processEvents(toEvaluate, rulesExecutor);
-            case "retract":
-                return retract(toEvaluate, rulesExecutor);
-            default:
-                throw new RuntimeException("Failed to evaluate " + toEvaluate.getOperation());
-        }
-    }
+//    public static EfestoOutput evaluate(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
+//        switch(toEvaluate.getOperation()) {
+//            case "execute-facts" :
+//                return executeFacts(toEvaluate, rulesExecutor);
+//            case "process-facts":
+//                return processFacts(toEvaluate, rulesExecutor);
+//            case "process-events":
+//                return processEvents(toEvaluate, rulesExecutor);
+//            case "retract":
+//                return retract(toEvaluate, rulesExecutor);
+//            default:
+//                throw new RuntimeException("Failed to evaluate " + toEvaluate.getOperation());
+//        }
+//    }
 
-    private static EfestoOutputInteger executeFacts(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
-        int retrieved = rulesExecutor.executeFacts(toEvaluate.getInputData());
-        return new EfestoOutputInteger(toEvaluate.getModelLocalUriId(), retrieved);
-    }
+//    private static EfestoOutputInteger executeFacts(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
+//        int retrieved = rulesExecutor.executeFacts(toEvaluate.getInputData());
+//        return new EfestoOutputInteger(toEvaluate.getModelLocalUriId(), retrieved);
+//    }
+//
+//    private static EfestoOutputMatches processFacts(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
+//        List<Match> matches = rulesExecutor.processFacts(toEvaluate.getInputData());
+//        return new EfestoOutputMatches(toEvaluate.getModelLocalUriId(), matches);
+//    }
 
-    private static EfestoOutputMatches processFacts(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
-        List<Match> matches = rulesExecutor.processFacts(toEvaluate.getInputData());
-        return new EfestoOutputMatches(toEvaluate.getModelLocalUriId(), matches);
-    }
-
-    private static EfestoOutputMatches processEvents(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
+    public static EfestoOutput processEvents(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
         List<Match> matches = rulesExecutor.processEvents(toEvaluate.getInputData());
         return new EfestoOutputMatches(toEvaluate.getModelLocalUriId(), matches);
     }
 
-    private static EfestoOutputBoolean retract(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
-        boolean retracted = rulesExecutor.retractFact(toEvaluate.getInputData());
-        return new EfestoOutputBoolean(toEvaluate.getModelLocalUriId(), retracted);
+    public static EfestoOutput processEvents(EfestoInputJson toEvaluate, RulesExecutor rulesExecutor) {
+        List<Match> matches = rulesExecutor.processEvents(toEvaluate.getInputData());
+        return new EfestoOutputMatches(toEvaluate.getModelLocalUriId(), matches);
     }
+
+//    private static EfestoOutputBoolean retract(EfestoInputMap toEvaluate, RulesExecutor rulesExecutor) {
+//        boolean retracted = rulesExecutor.retractFact(toEvaluate.getInputData());
+//        return new EfestoOutputBoolean(toEvaluate.getModelLocalUriId(), retracted);
+//    }
 }

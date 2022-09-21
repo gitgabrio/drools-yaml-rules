@@ -37,3 +37,18 @@ Use with care.
 To profile with async-profiler, if most of the expected invoked methods are _small_, add the following jvmarga
 
     jvmargs : -XX:UnlockDiagnosticVMOptions -XX:DebugNonSafepoints
+
+Profiling
+=========
+
+1. Install [async-profile](https://github.com/jvm-profiling-tools/async-profiler)
+2. make `profile.sh` executable
+3. set required kernel properties (linux) 
+
+    `sysctl kernel.perf_event_paranoid=1`
+    `sysctl kernel.kptr_restrict=0`
+4. start application to profile
+5. retrieve application pid (e.g. with `jps`)
+6. start profiler; e.g.
+   `/path/to/profiler.sh -d 60 -f result.html 64266`
+    profile the application with pid `64266` for 60 seconds (`-d 60`) and output result to the `result.html` file (`-f result.html`)

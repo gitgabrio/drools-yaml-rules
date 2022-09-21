@@ -15,11 +15,10 @@
  */
 package org.drools.yaml.runtime.utils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.drools.yaml.api.domain.RuleMatch;
 import org.drools.yaml.api.domain.durable.DurableRuleMatch;
@@ -32,6 +31,7 @@ import org.drools.yaml.runtime.model.EfestoOutputFactMaps;
 import org.drools.yaml.runtime.model.EfestoOutputInteger;
 import org.drools.yaml.runtime.model.EfestoOutputMatches;
 import org.drools.yaml.runtime.model.LocalComponentIdDrlRuleset;
+import org.kie.api.runtime.rule.Match;
 import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
 import org.kie.efesto.common.api.identifiers.ReflectiveAppRoot;
 import org.kie.efesto.runtimemanager.api.model.EfestoInput;
@@ -54,12 +54,20 @@ public class RuntimeUtils {
 
     public static List<RuleMatch> processFacts(long id, Map<String, Object> factMap) {
         EfestoOutputMatches output = (EfestoOutputMatches) common(id, factMap, "process-facts");
-        return output.getOutputData().stream().map(RuleMatch::from).collect(Collectors.toList());
+        List<RuleMatch> toReturn = new ArrayList<>();
+        for (Match match : output.getOutputData()) {
+            toReturn.add(RuleMatch.from(match));
+        }
+        return toReturn;
     }
 
     public static List<RuleMatch> processEvents(long id, Map<String, Object> factMap) {
         EfestoOutputMatches output = (EfestoOutputMatches) common(id, factMap, "process-events");
-        return output.getOutputData().stream().map(RuleMatch::from).collect(Collectors.toList());
+        List<RuleMatch> toReturn = new ArrayList<>();
+        for (Match match : output.getOutputData()) {
+            toReturn.add(RuleMatch.from(match));
+        }
+        return toReturn;
     }
 
     public static boolean retract(long id, Map<String, Object> factMap) {
@@ -76,14 +84,20 @@ public class RuntimeUtils {
 
     public static List<Map<String, Map>> processFactsDurableRules(long id, Map<String, Object> factMap) {
         EfestoOutputMatches output = (EfestoOutputMatches) common(id, factMap, "process-facts");
-        return output.getOutputData().stream()
-                .map(DurableRuleMatch::from).collect(Collectors.toList());
+        List<Map<String, Map>> toReturn = new ArrayList<>();
+        for (Match match : output.getOutputData()) {
+            toReturn.add(DurableRuleMatch.from(match));
+        }
+        return toReturn;
     }
 
     public static List<Map<String, Map>> processEventsDurableRules(long id, Map<String, Object> factMap) {
         EfestoOutputMatches output = (EfestoOutputMatches) common(id, factMap, "process-events");
-        return output.getOutputData().stream()
-                .map(DurableRuleMatch::from).collect(Collectors.toList());
+        List<Map<String, Map>> toReturn = new ArrayList<>();
+        for (Match match : output.getOutputData()) {
+            toReturn.add(DurableRuleMatch.from(match));
+        }
+        return toReturn;
     }
 
     private static EfestoOutput common(long id, Map<String, Object> factMap, String operation) {
@@ -102,9 +116,18 @@ public class RuntimeUtils {
         return outputs.iterator().next();
     }
 
-
-    static ModelLocalUriId makeModelLocalUriId(Object... suffix) {
-        String suffixString = Arrays.stream(suffix).map(Object::toString).collect(Collectors.joining("/"));
+    public static ModelLocalUriId makeModelLocalUriId(Object... suffix) {
+        StringBuilder builder = new StringBuilder();
+        int counter = 0;
+        int limit = suffix.length - 1;
+        for (Object object : suffix) {
+            builder.append(object.toString());
+            if (counter < limit) {
+                builder.append("/");
+            }
+            counter++;
+        }
+        String suffixString = builder.toString();
         LocalComponentIdDrlRuleset modelLocalUriId = new ReflectiveAppRoot("")
                 .get(DrlRulesetIdFactory.class)
                 .get(suffixString);
