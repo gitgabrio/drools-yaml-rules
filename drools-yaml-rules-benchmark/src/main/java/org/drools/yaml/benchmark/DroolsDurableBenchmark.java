@@ -1,6 +1,5 @@
 package org.drools.yaml.benchmark;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.drools.yaml.api.context.RulesExecutor;
@@ -9,10 +8,7 @@ import org.drools.yaml.compilation.RulesCompilationContext;
 import org.drools.yaml.compilation.model.JsonResource;
 import org.drools.yaml.runtime.RulesRuntimeContext;
 import org.drools.yaml.runtime.model.EfestoInputJson;
-import org.drools.yaml.runtime.model.EfestoInputMap;
 import org.drools.yaml.runtime.model.EfestoOutputMatches;
-import org.drools.yaml.runtime.utils.InputMaps;
-import org.json.JSONObject;
 import org.kie.efesto.common.api.identifiers.ModelLocalUriId;
 import org.kie.efesto.compilationmanager.api.service.CompilationManager;
 import org.kie.efesto.compilationmanager.api.utils.SPIUtils;
@@ -52,6 +48,8 @@ public class DroolsDurableBenchmark {
 
     private long executorId;
 
+    private ModelLocalUriId modelLocalUriId;
+
     @Setup
     public void setup() {
         String jsonRule = "{ \"rules\": {\"r_0\": {\"all\": [{\"m\": {\"$ex\": {\"event.i\": 1}}}]}}}";
@@ -86,6 +84,7 @@ public class DroolsDurableBenchmark {
         runtimeManager =
                 org.kie.efesto.runtimemanager.api.utils.SPIUtils.getRuntimeManager(false).orElseThrow(() -> new RuntimeException("Failed to retrieve RuntimeManager"));
         rulesRuntimeContext = RulesRuntimeContext.create();
+        modelLocalUriId = makeModelLocalUriId(executorId, "processEvents");
     }
 
     private void setupNotEfesto(String jsonRule) {
@@ -97,7 +96,6 @@ public class DroolsDurableBenchmark {
         for (int i = 0; i < eventsNr; i++) {
             // Doing inside the loop to recreate condition as of `benchmarkNotEfesto`
             String json = "{ \"event\": { \"i\": \"Done\" } }";
-            ModelLocalUriId modelLocalUriId = makeModelLocalUriId(executorId, "processEvents");
             EfestoInputJson efestoInputJson = new EfestoInputJson(modelLocalUriId, executorId, json);
             EfestoOutputMatches matches = (EfestoOutputMatches) runtimeManager
                     .evaluateInput(rulesRuntimeContext, efestoInputJson)
