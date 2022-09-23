@@ -20,7 +20,7 @@ public class FactMapExecutor<T> implements KieRuntimeService<Map<String, Object>
 
     @Override
     public EfestoClassKey getEfestoClassKeyIdentifier() {
-        return new EfestoClassKey(EfestoInputMap.class, Collections.singletonList(HashMap.class));
+        return new EfestoClassKey(EfestoInputMap.class, HashMap.class);
     }
 
     @Override

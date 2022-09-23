@@ -1,6 +1,5 @@
 package org.drools.yaml.runtime.service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,7 +19,7 @@ public class IdExecutor implements KieRuntimeService<Long, List<Map<String, Obje
 
     @Override
     public EfestoClassKey getEfestoClassKeyIdentifier() {
-        return new EfestoClassKey(EfestoInputId.class, Collections.singletonList(Long.class));
+        return new EfestoClassKey(EfestoInputId.class, Long.class);
     }
 
     @Override

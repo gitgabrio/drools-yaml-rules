@@ -21,7 +21,7 @@ public class JsonRulesExecutor<T> implements KieRuntimeService<String, T, Efesto
 
     @Override
     public EfestoClassKey getEfestoClassKeyIdentifier() {
-        return new EfestoClassKey(EfestoInputJson.class, Collections.singletonList(String.class));
+        return new EfestoClassKey(EfestoInputJson.class, String.class);
     }
 
     @Override
